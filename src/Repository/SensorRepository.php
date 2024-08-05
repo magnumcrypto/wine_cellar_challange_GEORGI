@@ -16,6 +16,14 @@ class SensorRepository extends ServiceEntityRepository
         parent::__construct($registry, Sensor::class);
     }
 
+    public function save(Sensor $sensor, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($sensor);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     public function getSensorsOrderedByName(): array
     {
         $sensors = $this->findBy([], ['name' => 'ASC']);
@@ -25,5 +33,21 @@ class SensorRepository extends ServiceEntityRepository
             $orderedSensors['sensors'][] = ['name' => $sensor->getName()];
         }
         return $orderedSensors;
+    }
+
+    public function insertSensor(object $dataSensor): ?int
+    {
+        if (!isset($dataSensor->name) || empty($dataSensor->name)) {
+            return null;
+        }
+        try {
+            $sensor = new Sensor();
+            $sensor->setName($dataSensor->name);
+            $this->save($sensor, true);
+            return $sensor->getId();
+        } catch (\Exception $e) {
+            echo 'Error inserting sensor: ' . $e->getMessage();
+            return null;
+        }
     }
 }

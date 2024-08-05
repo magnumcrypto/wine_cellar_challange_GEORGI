@@ -16,28 +16,14 @@ class SensorRepository extends ServiceEntityRepository
         parent::__construct($registry, Sensor::class);
     }
 
-    //    /**
-    //     * @return Sensor[] Returns an array of Sensor objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Sensor
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function getSensorsOrderedByName(): array
+    {
+        $sensors = $this->findBy([], ['name' => 'ASC']);
+        $orderedSensors = ['sensors' => []];
+        //return sensors oredered by name
+        foreach ($sensors as $sensor) {
+            $orderedSensors['sensors'][] = ['name' => $sensor->getName()];
+        }
+        return $orderedSensors;
+    }
 }

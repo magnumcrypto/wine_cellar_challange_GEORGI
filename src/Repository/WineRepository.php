@@ -16,28 +16,17 @@ class WineRepository extends ServiceEntityRepository
         parent::__construct($registry, Wine::class);
     }
 
-    //    /**
-    //     * @return Wine[] Returns an array of Wine objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('w.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Wine
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function getAllWines(MeasurementRepository $measurementRepository): array
+    {
+        $wines = $this->findAll();
+        $allWines = ['wines' => []];
+        foreach ($wines as $wine) {
+            $allWines['wines'][] = [
+                'name' => $wine->getName(),
+                'year' => $wine->getYear(),
+                'measurements' => $measurementRepository->getMeasurementsByWineId($wine->getId())
+            ];
+        }
+        return $allWines;
+    }
 }

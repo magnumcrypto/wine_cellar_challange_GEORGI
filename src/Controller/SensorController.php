@@ -14,8 +14,12 @@ class SensorController extends AbstractController
     #[Route('/sensors', name: 'app_sensors', methods: ['GET'])]
     public function getAll(SensorRepository $sensorRepository): JsonResponse
     {
-        $sensors = $sensorRepository->getSensorsOrderedByName();
-        return new JsonResponse($sensors, Response::HTTP_OK);
+        try {
+            $sensors = $sensorRepository->getSensorsOrderedByName();
+            return new JsonResponse($sensors, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     #[Route('/sensor/new', name: 'app_register_sensor', methods: ['POST'])]

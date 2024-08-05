@@ -2,12 +2,155 @@ nelmio_api_doc:
     documentation:
         info:
             title: Wine Cellar API REST
-            description: Webservice to manage a wine cellar
+            description: Webservice to manage a wine cellar (challange Georgi Vankov)
             version: 1.0.0
         paths: # to filter documented paths
-            /:
+            /sensors:
                 get:
-                    description: Health check endpoint
+                    description: Get all sensors ordered by name ASC
+                    tags:
+                        - Sensors
+                    responses:
+                        200:
+                            description: Sensors list
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/responseSensors'
+                                        example:
+                                            sensors:
+                                                - name: Humidity sensor
+                                                - name: Pressure sensor
+                                                - name: Temperature sensor                                                                                                  
+            /snesor/new:
+                post:
+                    description: Create a new sensor
+                    tags:
+                        - Sensors
+                    requestBody:
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: '#/components/schemas/registerSensor'
+                    responses:
+                        201:
+                            description: Sensor created
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/sensorCreated'
+                        400:
+                            description: Invalid data
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/failureCreated'
+            /measurements/new:
+                post:
+                    description: Create a new measurement
+                    tags:
+                        - Measures
+                    requestBody:
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: '#/components/schemas/registerMeasurement'
+                    responses:
+                        201:
+                            description: Measurement created
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/measurementCreated'
+                        400:
+                            description: Invalid data
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/failureCreated'
+            /wines:
+                get:
+                    description: Get all wines with measurements
+                    tags:
+                        - Wines
+                    responses:
+                        200:
+                            description: Wines list with measurements
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/responseWines'
+        tags: # to filter documented tags
+            - name: Sensors
+            - name: Wines
+            - name: Measures
+        components:
+            schemas:
+                responseSensors:
+                    type: object
+                    properties:
+                        sensors: 
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    name:
+                                        type: string
+                                        example: "Temperature sensor"
+                registerSensor:
+                    type: object
+                    properties:
+                        name:
+                            type: string
+                            example: "Temperature sensor"
+                sensorCreated:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "Sensor with id 1 created"
+                failureCreated:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "No data received"
+                registerMeasurement:
+                    type: object
+                    properties:
+                        year: { type: integer, example: 2021 }
+                        color: { type: string, example: "Red" }
+                        gradiation: { type: float, example: 12.5 }
+                        temperature: { type: float, example: 18.5 }
+                        ph: { type: float, example: 3.5 }
+                        sensor: { type: integer, example: 1 }
+                        wine: { type: integer, example: 1 }
+                measurementCreated:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "Measurement with id 1 created"
+                responseWines:
+                    type: object
+                    properties:
+                        wines:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    name: { type: string, example: "Chardonnay" }
+                                    year: { type: integer, example: 2021 }
+                                    measurements:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                year: { type: integer, example: 2021 }
+                                                color: { type: string, example: "Red" }
+                                                gradiation: { type: float, example: 12.5 }
+                                                temperature: { type: float, example: 18.5 }
+                                                ph: { type: float, example: 3.5 }
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Measurement
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column(name: 'id')]
     private ?int $id = null;
 

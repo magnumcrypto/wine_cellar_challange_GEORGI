@@ -19,7 +19,7 @@ class SensorController extends AbstractController
     }
 
     #[Route('/sensor/new', name: 'app_register_sensor', methods: ['POST'])]
-    public function registerSensor(Request $request, SensorRepository $sensorRepository)
+    public function registerSensor(Request $request, SensorRepository $sensorRepository): JsonResponse
     {
         if (!$request->getContent()) {
             return new JsonResponse(['error' => 'No data received'], Response::HTTP_BAD_REQUEST);

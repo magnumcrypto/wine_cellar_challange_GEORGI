@@ -22,7 +22,7 @@ nelmio_api_doc:
                                                 - name: Humidity sensor
                                                 - name: Pressure sensor
                                                 - name: Temperature sensor                                                                                                  
-            /snesor/new:
+            /sensor/new:
                 post:
                     description: Create a new sensor
                     tags:

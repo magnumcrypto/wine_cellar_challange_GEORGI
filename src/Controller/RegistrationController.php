@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/registration', name: 'app_registration', methods: ['POST'])]
+    #[Route('/api/registration', name: 'app_registration', methods: ['POST'])]
     public function index(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         if (!$request->getContent()) {
@@ -22,8 +22,8 @@ class RegistrationController extends AbstractController
         $dataUser = json_decode($request->getContent());
         $created = $userRepository->registerUser($dataUser, $passwordHasher);
         if (is_null($created)) {
-            return new JsonResponse(['error' => 'Error creating user'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(['error' => 'Email alredy exists'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        return new JsonResponse(['message' => 'User with ' . $created . ' created'], Response::HTTP_CREATED);
+        return new JsonResponse(['message' => 'User ' . $created . ' created'], Response::HTTP_CREATED);
     }
 }

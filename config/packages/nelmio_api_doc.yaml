@@ -80,10 +80,63 @@ nelmio_api_doc:
                                 application/json:
                                     schema:
                                         $ref: '#/components/schemas/responseWines'
+            /api/registration:
+                post:
+                    description: Register a new user
+                    tags:
+                        - Users
+                    requestBody:
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: '#/components/schemas/registerUser'
+                    responses:
+                        201:
+                            description: User created
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/userCreated'
+                        400:
+                            description: Invalid data
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/failureCreated'
+                        500:
+                            description: Email already exists
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/existsEmail'
+            /api/login:
+                post:
+                    description: Login with email and password
+                    tags:
+                        - Users
+                    requestBody:
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: '#/components/schemas/loginUser'
+                    responses:
+                        200:
+                            description: User logged in
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/userLogged'
+                        401:
+                            description: Invalid credentials
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/unauthorized'
         tags: # to filter documented tags
             - name: Sensors
             - name: Wines
             - name: Measures
+            - name: Users
         components:
             schemas:
                 responseSensors:
@@ -151,6 +204,34 @@ nelmio_api_doc:
                                                 gradiation: { type: float, example: 12.5 }
                                                 temperature: { type: float, example: 18.5 }
                                                 ph: { type: float, example: 3.5 }
+                registerUser:
+                    type: object
+                    properties:
+                        name: { type: string, example: "John" }
+                        surnames: { type: string, example: "Doe" }
+                        email: { type: string, example: "jondoe@email.com" }
+                        password: { type: string, example: "123456" }
+                userCreated:
+                    type: object
+                    properties:
+                        message: { type: string, example: "User jondoe@email.com created" }
+                existsEmail:
+                    type: object
+                    properties:
+                        message: { type: string, example: "Email already exists" }
+                loginUser:
+                    type: object
+                    properties:
+                        username: { type: string, example: "jondoe@email.com" }
+                        password: { type: string, example: "123456" }
+                userLogged:
+                    type: object
+                    properties:
+                        user: { type: string, example: "jondoe@email.com" }
+                unauthorized:
+                    type: object
+                    properties:
+                        message: { type: string, example: "Invalid credentials" }
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

@@ -5,7 +5,7 @@ nelmio_api_doc:
             description: Webservice to manage a wine cellar (challange Georgi Vankov)
             version: 1.0.0
         paths: # to filter documented paths
-            /sensors:
+            /api/sensors:
                 get:
                     description: Get all sensors ordered by name ASC
                     tags:
@@ -16,13 +16,7 @@ nelmio_api_doc:
                             content:
                                 application/json:
                                     schema:
-                                        $ref: '#/components/schemas/responseSensors'
-                                        example:
-                                            sensors:
-                                                - name: Humidity sensor
-                                                - name: Pressure sensor
-                                                - name: Temperature sensor                                                                                                  
-            /sensor/new:
+                                        $ref: '#/components/schemas/responseSensors'                                                                                           
                 post:
                     description: Create a new sensor
                     tags:
@@ -45,7 +39,7 @@ nelmio_api_doc:
                                 application/json:
                                     schema:
                                         $ref: '#/components/schemas/failureCreated'
-            /measurements/new:
+            /api/measurements:
                 post:
                     description: Create a new measurement
                     tags:
@@ -68,7 +62,7 @@ nelmio_api_doc:
                                 application/json:
                                     schema:
                                         $ref: '#/components/schemas/failureCreated'
-            /wines:
+            /api/wines:
                 get:
                     description: Get all wines with measurements
                     tags:
@@ -80,6 +74,16 @@ nelmio_api_doc:
                                 application/json:
                                     schema:
                                         $ref: '#/components/schemas/responseWines'
+                        500:
+                            description: Unexpected error
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "An unexpected error occurred. Please try again later."
             /api/registration:
                 post:
                     description: Register a new user
@@ -150,6 +154,10 @@ nelmio_api_doc:
                                     name:
                                         type: string
                                         example: "Temperature sensor"
+                    example:
+                        sensors:
+                            - name: "Temperature sensor"
+                            - name: "PH sensor"
                 registerSensor:
                     type: object
                     properties:

@@ -1,0 +1,27 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch PHPUnit tests",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceFolder}/vendor/bin/phpunit",
+            "args": [
+                "--filter",
+                "testRegisterMeasurementWithValidData"
+            ],
+            "cwd": "${workspaceFolder}",
+            "port": 9003,
+            "runtimeArgs": [
+                "-dxdebug.start_with_request=yes"
+            ],
+            "env": {
+                "XDEBUG_MODE": "debug,develop",
+                "XDEBUG_CONFIG": "client_port=${port}"
+            }
+        }
+    ]
+}

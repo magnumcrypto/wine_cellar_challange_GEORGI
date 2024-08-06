@@ -11,9 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/api')]
 class MeasurementController extends AbstractController
 {
-    #[Route('/measurement/new', name: 'app_new_measurement', methods: ['POST'])]
+    #[Route('/measurements', name: 'app_new_measurement', methods: ['POST'])]
     public function registerMeasurement(Request $request, MeasurementRepository $measurementRepository, SensorRepository $sensorRepository, WineRepository $wineRepository): JsonResponse
     {
         if (!$request->getContent()) {

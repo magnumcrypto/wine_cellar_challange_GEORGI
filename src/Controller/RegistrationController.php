@@ -11,9 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/api')]
 class RegistrationController extends AbstractController
 {
-    #[Route('/api/registration', name: 'app_registration', methods: ['POST'])]
+    #[Route('/registration', name: 'app_registration', methods: ['POST'])]
     public function index(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         if (!$request->getContent()) {

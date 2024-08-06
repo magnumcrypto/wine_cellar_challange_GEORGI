@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/api')]
 class WineController extends AbstractController
 {
     #[Route('/wines', name: 'app_wines', methods: ['GET'])]
@@ -18,7 +19,7 @@ class WineController extends AbstractController
             $wines = $wineRepository->getAllWines($measurementRepository);
             return new JsonResponse($wines, Response::HTTP_OK);
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(['error' => 'An unexpected error occurred. Please try again later.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

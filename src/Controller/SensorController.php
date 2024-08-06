@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/api')]
 class SensorController extends AbstractController
 {
     #[Route('/sensors', name: 'app_sensors', methods: ['GET'])]
@@ -22,7 +23,7 @@ class SensorController extends AbstractController
         }
     }
 
-    #[Route('/sensor/new', name: 'app_register_sensor', methods: ['POST'])]
+    #[Route('/sensors', name: 'app_register_sensor', methods: ['POST'])]
     public function registerSensor(Request $request, SensorRepository $sensorRepository): JsonResponse
     {
         if (!$request->getContent()) {

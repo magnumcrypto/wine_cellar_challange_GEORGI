@@ -51,7 +51,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             $user = new User();
             $user->setName($dataUser->name);
             $user->setSurnames($dataUser->surnames);
-            $user->setEmail($dataUser->email);
+            $user->setEmail(strtolower($dataUser->email));
 
             //hash the password
             $hashdedPassword = $passwordHasher->hashPassword($user, $dataUser->password);
@@ -59,7 +59,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             $this->save($user, true);
             return $user->getEmail();
         } catch (\Exception $e) {
-            echo 'Error registering user: ' . $e->getMessage();
             return null;
         }
     }

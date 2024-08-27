@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class RegistrationController extends AbstractController
 {
     #[Route('/registration', name: 'app_registration', methods: ['POST'])]
-    public function index(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    public function registerUser(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         if (!$request->getContent()) {
             return new JsonResponse(['error' => 'No data provided'], Response::HTTP_BAD_REQUEST);

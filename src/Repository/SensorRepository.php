@@ -46,7 +46,6 @@ class SensorRepository extends ServiceEntityRepository
             $this->save($sensor, true);
             return $sensor->getId();
         } catch (\Exception $e) {
-            echo 'Error inserting sensor: ' . $e->getMessage();
             return null;
         }
     }

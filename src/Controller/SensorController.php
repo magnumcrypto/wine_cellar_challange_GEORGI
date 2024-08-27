@@ -19,7 +19,7 @@ class SensorController extends AbstractController
             $sensors = $sensorRepository->getSensorsOrderedByName();
             return new JsonResponse($sensors, Response::HTTP_OK);
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(['error' => 'An error occurred while fetching sensors. Please try again later.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

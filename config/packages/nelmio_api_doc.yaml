@@ -236,6 +236,7 @@ nelmio_api_doc:
                     type: object
                     properties:
                         user: { type: string, example: "jondoe@email.com" }
+                        token: { type: string, example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3aW5lLWNlbGxhci1hcGkifQ"}
                 unauthorized:
                     type: object
                     properties:

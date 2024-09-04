@@ -15,25 +15,27 @@ use Symfony\Component\Routing\Attribute\Route;
 class RegistrationController extends AbstractController
 {
     private EmailService $emailService;
+    private UserPasswordHasherInterface $passwordHasher;
 
-    public function __construct(EmailService $emailService)
+    public function __construct(EmailService $emailService, UserPasswordHasherInterface $passwordHasher)
     {
         $this->emailService = $emailService;
+        $this->passwordHasher = $passwordHasher;
     }
 
     #[Route('/registration', name: 'app_registration', methods: ['POST'])]
-    public function registerUser(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    public function registerUser(Request $request, UserRepository $userRepository): JsonResponse
     {
         if (!$request->getContent()) {
             return new JsonResponse(['error' => 'No data provided'], Response::HTTP_BAD_REQUEST);
         }
         $dataUser = json_decode($request->getContent());
-        $created = $userRepository->registerUser($dataUser, $passwordHasher);
-        if (is_null($created)) {
+        $createdUser = $userRepository->registerUser($dataUser, $this->passwordHasher);
+        if (is_null($createdUser)) {
             return new JsonResponse(['error' => 'Email alredy exists'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         $this->sendEmail($dataUser);
-        return new JsonResponse(['message' => 'User ' . $created . ' created'], Response::HTTP_CREATED);
+        return new JsonResponse(['message' => 'User ' . $createdUser . ' created'], Response::HTTP_CREATED);
     }
 
     public function sendEmail(object $dataUser): void

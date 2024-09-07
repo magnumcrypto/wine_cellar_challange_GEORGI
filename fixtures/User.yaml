@@ -1,0 +1,6 @@
+App\Entity\User:
+  User_0:
+    email: user0@hotmail.com
+    password: password
+    name: User0
+    surnames: Surnames

@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class LoginController extends AbstractController
 {
     #[Route('/login', name: 'api_login', methods: ['POST'])]
-    public function index(#[CurrentUser] ?User $user, JWTTokenManagerInterface $JWTManager): JsonResponse
+    public function login(#[CurrentUser] ?User $user, JWTTokenManagerInterface $JWTManager): JsonResponse
     {
         if (null === $user) {
             return new JsonResponse(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);

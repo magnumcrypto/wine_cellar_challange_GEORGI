@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Controllers;
 
 use App\Controller\RegistrationController;
-use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,7 +18,8 @@ class RegistrationControllerTest extends TestCase
     private MockObject|Request $request;
     private MockObject|UserRepository $userRepository;
     private MockObject|UserPasswordHasherInterface $passwordHasher;
-    private RegistrationController $registrationController;
+    private MockObject|EmailService $emailService;
+    private MockObject|RegistrationController $registrationController;
 
     public function setUp(): void
     {
@@ -33,8 +34,14 @@ class RegistrationControllerTest extends TestCase
         $this->passwordHasher = $this->getMockBuilder(UserPasswordHasherInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $this->emailService = $this->getMockBuilder(EmailService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->registrationController = new RegistrationController();
+        $this->registrationController = $this->getMockBuilder(RegistrationController::class)
+            ->setConstructorArgs([$this->emailService, $this->passwordHasher])
+            ->onlyMethods(['sendEmail'])
+            ->getMock();
     }
 
     public function testRegisterUserWithValidCredentials(): void
@@ -58,8 +65,7 @@ class RegistrationControllerTest extends TestCase
 
         $response = $this->registrationController->registerUser(
             $this->request,
-            $this->userRepository,
-            $this->passwordHasher
+            $this->userRepository
         );
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertJsonStringEqualsJsonString(
@@ -90,8 +96,7 @@ class RegistrationControllerTest extends TestCase
 
         $response = $this->registrationController->registerUser(
             $this->request,
-            $this->userRepository,
-            $this->passwordHasher
+            $this->userRepository
         );
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertJsonStringEqualsJsonString(

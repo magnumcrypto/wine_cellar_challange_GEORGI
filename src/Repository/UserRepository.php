@@ -44,7 +44,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function registerUser(object $dataUser, UserPasswordHasherInterface $passwordHasher): ?string
     {
-        if (!isset($dataUser) || empty($dataUser)) {
+        if (!isset($dataUser) || empty($dataUser) || !isset($dataUser->email) || empty($dataUser->email)) {
             return null;
         }
         try {

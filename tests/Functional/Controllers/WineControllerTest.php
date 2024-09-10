@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controllers;
 
 use App\Tests\Functional\BaseClient;
+use App\Tests\Functional\WineBaseClient;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
-class WineControllerTest extends BaseClient
+class WineControllerTest extends WineBaseClient
 {
     private const ENDPOINT = '/api/wines';
 
@@ -32,10 +35,10 @@ class WineControllerTest extends BaseClient
             ]
         );
 
-        self::$baseClient->request('GET', self::ENDPOINT);
-        $response = self::$baseClient->getResponse();
+        self::$wineBaseClient->request(Request::METHOD_GET, self::ENDPOINT);
+        $response = self::$wineBaseClient->getResponse();
 
-        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
         self::assertJsonStringEqualsJsonString($responseData, $response->getContent());
 
         $responseContent = json_decode($response->getContent(), true);

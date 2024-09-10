@@ -15,10 +15,10 @@ class MeasurementControllerTest extends BaseClient
     public function testRegisterMeasurement(): void
     {
         $payload = json_encode([
-            "year" => 2021,
-            "color" => "Red",
-            "graduation" => 11.8,
-            "temperature" => 22.40,
+            "year" => 2018,
+            "color" => "red",
+            "graduation" => 12.5,
+            "temperature" => 15.45,
             "ph" => 3.5,
             "sensor" => 1,
             "wine" => 1

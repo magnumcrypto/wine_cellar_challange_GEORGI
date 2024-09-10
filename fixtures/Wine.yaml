@@ -1,0 +1,4 @@
+App\Entity\Wine:
+  Wine_0:
+    name: Chardonnay
+    year: 2018

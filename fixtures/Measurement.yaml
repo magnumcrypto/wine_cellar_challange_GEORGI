@@ -1,0 +1,9 @@
+App\Entity\Measurement:
+  Measurement_0:
+    year: 2018
+    color: red
+    graduation: 12.5
+    temperature: 15.45
+    ph: 3.5
+    sensor: '@Sensor_0'
+    wine: '@Wine_0'
